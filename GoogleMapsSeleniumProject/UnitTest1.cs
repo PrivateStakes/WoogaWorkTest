@@ -58,7 +58,7 @@ namespace GoogleMapsSeleniumProject
 
             IWebElement searchText = driver.FindElement(By.CssSelector("[name = 'q']"));
 
-            searchText.SendKeys("LambdaTest");
+            searchText.SendKeys("cheese");
 
             
 
