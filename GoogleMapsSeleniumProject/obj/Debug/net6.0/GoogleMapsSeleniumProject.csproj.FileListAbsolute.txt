@@ -98,3 +98,6 @@ E:\Projects\Wooga\GoogleMapsSeleniumProject\GoogleMapsSeleniumProject\obj\Debug\
 E:\Projects\Wooga\GoogleMapsSeleniumProject\GoogleMapsSeleniumProject\obj\Debug\net6.0\GoogleMapsSeleniumProject.pdb
 E:\Projects\Wooga\GoogleMapsSeleniumProject\GoogleMapsSeleniumProject\obj\Debug\net6.0\GoogleMapsSeleniumProject.genruntimeconfig.cache
 E:\Projects\Wooga\GoogleMapsSeleniumProject\GoogleMapsSeleniumProject\obj\Debug\net6.0\ref\GoogleMapsSeleniumProject.dll
+E:\Projects\Wooga\GoogleMapsSeleniumProject\GoogleMapsSeleniumProject\bin\Debug\net6.0\AngleSharp.dll
+E:\Projects\Wooga\GoogleMapsSeleniumProject\GoogleMapsSeleniumProject\bin\Debug\net6.0\ICSharpCode.SharpZipLib.dll
+E:\Projects\Wooga\GoogleMapsSeleniumProject\GoogleMapsSeleniumProject\bin\Debug\net6.0\WebDriverManager.dll
