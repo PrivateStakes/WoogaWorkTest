@@ -2,10 +2,16 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Safari;
 using OpenQA.Selenium.Interactions;
 using System;
 using WebDriverManager;
-using WebDriverManager.DriverConfigs.Impl;  //find out why this include doesn't work
+using WebDriverManager.DriverConfigs.Impl;
+using System.Collections.Generic;
+
 
 namespace GoogleMapsSeleniumProject
 {
@@ -22,14 +28,18 @@ namespace GoogleMapsSeleniumProject
 
     public class Tests
     {
-        string _url = "https://www.google.com";
-
-        IWebDriver _driver;
+        private IWebDriver _driver;
+        private List<TestEnvironment> _tests;
 
         [SetUp] //prepare variables for the tests (constructors and whatnot)
 
         public void start_browser()
         {
+            _tests = new List<TestEnvironment>();
+
+            _tests.Add(new UrlTest());
+            _tests.Add(new SearchTest());
+            _tests.Add(new MenuTest());
 
             //Selenium WebDriver set to utilised broswer (make one for each browser later)
             //ChromeOptions options = new ChromeOptions();
@@ -39,9 +49,7 @@ namespace GoogleMapsSeleniumProject
 
             //ICapabilities capabilities = ((RemoteWebDriver)_driver).Capabilities;
 
-            new DriverManager().SetUpDriver(new ChromeConfig(), "104.0.5112.79");    //, capabilities.GetCapability("browserVersion").ToString()
-            _driver = new ChromeDriver();
-            _driver.Manage().Window.Maximize();
+
         }
 
         [Test]  //all test methods you are planning to utilise (runtime)
@@ -51,28 +59,55 @@ namespace GoogleMapsSeleniumProject
         //}
         public void test_search()
         {
-            _driver.Url = _url;
-            //driver.Navigate().GoToUrl()
+            for (int j = 0; j < 2; j++) //iterate through the different browsers -- may have to be made into a switch case if language cannot be made universal
+            {
+                switch (j)  //skip enums for now
+                {
+                    case 0: //Chrome
+                        new DriverManager().SetUpDriver(new ChromeConfig(), "104.0.5112.79");    //, capabilities.GetCapability("browserVersion").ToString()
+                        _driver = new ChromeDriver();
+                        _driver.Manage().Window.Maximize();
 
-            System.Threading.Thread.Sleep(2000); //change to deny cookies "W0wltc"
+                        break;
 
-            IWebElement searchButton = _driver.FindElement(By.Id("W0wltc"));
-            searchButton.Click();
+                    case 1: //Edge
+                        _driver.Close();
+                        new DriverManager().SetUpDriver(new EdgeConfig());    //, capabilities.GetCapability("browserVersion").ToString()
+                        _driver = new EdgeDriver();
+                        _driver.Manage().Window.Maximize();
+                        break;
 
-            System.Threading.Thread.Sleep(2000);
+                    case 2: //FireFox
+                        
+                        _driver.Close();
+                        new DriverManager().SetUpDriver(new FirefoxConfig());    //, capabilities.GetCapability("browserVersion").ToString()
+                        _driver = new FirefoxDriver();
+                        _driver.Manage().Window.Maximize();
+                        System.Threading.Thread.Sleep(3000);
+                        break;
+
+                    case 4: //Safari
+                        _driver.Close();
+                        _driver = new SafariDriver();   //does it not need to be set up?
+                        _driver.Manage().Window.Maximize();
+                        System.Threading.Thread.Sleep(3000);
+                        break;
+
+                    case 5: //Opera - do last
+                        break;
+
+                    default:
+                        Assert.IsTrue(false, "Program tried to use a non-existant browser");
+                        break;
+                }
+
+                foreach (var test in _tests)
+                {
+                    test.test_main(_driver);
+                }
+            }
 
             
-            //prefs.put("network.cookie.cookieBehavior", 2);    
-
-            IWebElement searchText = _driver.FindElement(By.CssSelector("[name = 'q']"));
-
-            searchText.SendKeys("cheese");
-
-            
-
-            // Actions builder = new Actions(driver);
-            //builder.SendKeys(Keys.Enter);
-
             _driver.FindElement(By.CssSelector("[name = 'q']")).SendKeys(Keys.Enter);
 
             //IWebElement searchButton = web_driver.FindElement(By.XPath("//div[@class='FPdoLc tfB0Bf']//input[@name='btnK']"));

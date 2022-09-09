@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "qFscm29GD8fHRCPV/TiKUpB71Bpgg12Vo8Jde+fxc0rPfsDN5RqrqLQTiDZNy8tpM30BUonU7CnWNAENAwkCfg==",
+  "dgSpecHash": "dC59BEFycxCEfTq3xf/E3EFIQcWIR7qjuziXhhAQH9B7YHztT1WlBy5OwbJrsuTWXx+ByMHEooaXBtPQROe6QQ==",
   "success": true,
   "projectFilePath": "E:\\Projects\\Wooga\\GoogleMapsSeleniumProject\\GoogleMapsSeleniumProject\\GoogleMapsSeleniumProject.csproj",
   "expectedPackageFiles": [
@@ -18,7 +18,6 @@
     "C:\\Users\\edgre\\.nuget\\packages\\nunit\\3.13.3\\nunit.3.13.3.nupkg.sha512",
     "C:\\Users\\edgre\\.nuget\\packages\\nunit3testadapter\\4.2.1\\nunit3testadapter.4.2.1.nupkg.sha512",
     "C:\\Users\\edgre\\.nuget\\packages\\selenium.webdriver\\4.4.0\\selenium.webdriver.4.4.0.nupkg.sha512",
-    "C:\\Users\\edgre\\.nuget\\packages\\selenium.webdriver.iedriver\\4.3.0\\selenium.webdriver.iedriver.4.3.0.nupkg.sha512",
     "C:\\Users\\edgre\\.nuget\\packages\\sharpziplib\\1.3.3\\sharpziplib.1.3.3.nupkg.sha512",
     "C:\\Users\\edgre\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\edgre\\.nuget\\packages\\system.reflection.metadata\\1.6.0\\system.reflection.metadata.1.6.0.nupkg.sha512",

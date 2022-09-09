@@ -60,10 +60,6 @@
               "target": "Package",
               "version": "[4.4.0, )"
             },
-            "Selenium.WebDriver.IEDriver": {
-              "target": "Package",
-              "version": "[4.3.0, )"
-            },
             "WebDriverManager": {
               "target": "Package",
               "version": "[2.15.0, )"

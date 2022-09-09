@@ -394,12 +394,6 @@
           "lib/net5.0/WebDriver.dll": {}
         }
       },
-      "Selenium.WebDriver.IEDriver/4.3.0": {
-        "type": "package",
-        "build": {
-          "build/Selenium.WebDriver.IEDriver.targets": {}
-        }
-      },
       "SharpZipLib/1.3.3": {
         "type": "package",
         "compile": {
@@ -1454,22 +1448,6 @@
         "selenium.webdriver.nuspec"
       ]
     },
-    "Selenium.WebDriver.IEDriver/4.3.0": {
-      "sha512": "+M6FppGaEFrPf2t9mHy9y4fTkLVlRY3udl7JPc1mukXWrEE4mtq6KKymO5tJnnwAcaK5g0Jt7YS80dBa5xMTeg==",
-      "type": "package",
-      "path": "selenium.webdriver.iedriver/4.3.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "README.md",
-        "build/DefinePropertiesIEDriver.targets",
-        "build/Selenium.WebDriver.IEDriver.targets",
-        "driver/IEDriverServer.exe",
-        "nupkg-icon.png",
-        "selenium.webdriver.iedriver.4.3.0.nupkg.sha512",
-        "selenium.webdriver.iedriver.nuspec"
-      ]
-    },
     "SharpZipLib/1.3.3": {
       "sha512": "N8+hwhsKZm25tDJfWpBSW7EGhH/R7EMuiX+KJ4C4u+fCWVc1lJ5zg1u3S1RPPVYgTqhx/C3hxrqUpi6RwK5+Tg==",
       "type": "package",
@@ -1731,7 +1709,6 @@
       "NUnit >= 3.13.3",
       "NUnit3TestAdapter >= 4.2.1",
       "Selenium.WebDriver >= 4.4.0",
-      "Selenium.WebDriver.IEDriver >= 4.3.0",
       "WebDriverManager >= 2.15.0",
       "coverlet.collector >= 3.1.0"
     ]
@@ -1795,10 +1772,6 @@
           "Selenium.WebDriver": {
             "target": "Package",
             "version": "[4.4.0, )"
-          },
-          "Selenium.WebDriver.IEDriver": {
-            "target": "Package",
-            "version": "[4.3.0, )"
           },
           "WebDriverManager": {
             "target": "Package",

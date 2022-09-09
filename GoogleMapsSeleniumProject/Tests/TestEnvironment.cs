@@ -9,22 +9,9 @@ namespace GoogleMapsSeleniumProject
 {
     abstract class TestEnvironment
     {
-        protected IWebDriver _driver;
         protected string _url;
 
-        public abstract void test_setup();
-
-        public abstract void test_main();
-
-        public IWebDriver get_web_driver()
-        {
-            return _driver;
-        }
-
-        public void set_web_driver(IWebDriver driver)
-        {
-            _driver = driver;
-        }
+        public abstract void test_main(IWebDriver driver);
 
         public string get_url()
         {
@@ -34,6 +21,19 @@ namespace GoogleMapsSeleniumProject
         protected void set_url(string url)
         {
             _url = url;
+        }
+
+        protected bool IsElementPresent(IWebDriver driver, By conditions)
+        {
+            try
+            {
+                driver.FindElement(conditions);
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
         }
     }
 }
