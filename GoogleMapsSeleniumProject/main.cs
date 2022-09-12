@@ -13,6 +13,8 @@ using WebDriverManager.DriverConfigs.Impl;
 using System.Collections.Generic;
 
 
+//using OpenQA.Selenium.Opera;
+
 namespace GoogleMapsSeleniumProject
 {
 
@@ -26,94 +28,94 @@ namespace GoogleMapsSeleniumProject
        profile.setPreference("network.cookie.cookieBehavior", 2);
      */
 
+    
+
     public class Tests
     {
+        private enum E_Browsers
+        {
+            google_chrome,
+            microsoft_edge,
+            mozilla_firefox,
+            apple_safari,
+            opera_opera,
+            last_element //note: this element should ALWAYS be the last element
+        };
+
         private IWebDriver _driver;
         private List<TestEnvironment> _tests;
+        private List<String> _addresses;
+        private List<String> _coordinates;
+        private DriverManager _web_driver_manager;
 
-        [SetUp] //prepare variables for the tests (constructors and whatnot)
-
+        [SetUp]
         public void start_browser()
         {
             _tests = new List<TestEnvironment>();
+            _addresses = new List<String>();
+            _web_driver_manager = new DriverManager();
 
             _tests.Add(new UrlTest());
             _tests.Add(new SearchTest());
-            _tests.Add(new MenuTest());
+            _tests.Add(new MenuTest());        
 
-            //Selenium WebDriver set to utilised broswer (make one for each browser later)
-            //ChromeOptions options = new ChromeOptions();
-            //options.AddArguments(@"--user-data-dir=C:\Users\your username\AppData\Local\Google\Chrome\User Data");
+            //load data
+            string[] address_data = System.IO.File.ReadAllLines(@"..\..\..\addresses.txt");
 
-            //web_driver = new ChromeDriver(options);
-
-            //ICapabilities capabilities = ((RemoteWebDriver)_driver).Capabilities;
-
-
+            // Display the file contents by using a foreach loop.
+            System.Console.WriteLine("Contents of tst.txt = ");
+            foreach (string line in address_data)
+            {
+                if (line != "") _addresses.Add(line);
+            }
         }
 
-        [Test]  //all test methods you are planning to utilise (runtime)
-        //public void Test1()
-        //{
-        //    Assert.Pass();
-        //}
+        //Assert.Pass();
+        [Test]
         public void test_search()
         {
-            for (int j = 0; j < 2; j++) //iterate through the different browsers -- may have to be made into a switch case if language cannot be made universal
+            for (int j = 0; j < (int)E_Browsers.last_element + 1; j++) //iterate through the different browsers -- may have to be made into a switch case if language cannot be made universal
             {
-                switch (j)  //skip enums for now
+                switch ((E_Browsers)j)
                 {
-                    case 0: //Chrome
-                        new DriverManager().SetUpDriver(new ChromeConfig(), "104.0.5112.79");    //, capabilities.GetCapability("browserVersion").ToString()
+                    case E_Browsers.google_chrome:
+                        _web_driver_manager.SetUpDriver(new ChromeConfig(), "104.0.5112.79");    //, capabilities.GetCapability("browserVersion").ToString()
                         _driver = new ChromeDriver();
-                        _driver.Manage().Window.Maximize();
-
                         break;
 
-                    case 1: //Edge
-                        _driver.Close();
-                        new DriverManager().SetUpDriver(new EdgeConfig());    //, capabilities.GetCapability("browserVersion").ToString()
+                    case E_Browsers.microsoft_edge:
+                        _web_driver_manager.SetUpDriver(new EdgeConfig());    //, capabilities.GetCapability("browserVersion").ToString()
                         _driver = new EdgeDriver();
-                        _driver.Manage().Window.Maximize();
                         break;
 
-                    case 2: //FireFox
-                        
-                        _driver.Close();
-                        new DriverManager().SetUpDriver(new FirefoxConfig());    //, capabilities.GetCapability("browserVersion").ToString()
+                    case E_Browsers.mozilla_firefox:
+                        _web_driver_manager.SetUpDriver(new FirefoxConfig());    //, capabilities.GetCapability("browserVersion").ToString()
                         _driver = new FirefoxDriver();
-                        _driver.Manage().Window.Maximize();
-                        System.Threading.Thread.Sleep(3000);
                         break;
 
-                    case 4: //Safari
-                        _driver.Close();
-                        _driver = new SafariDriver();   //does it not need to be set up?
-                        _driver.Manage().Window.Maximize();
-                        System.Threading.Thread.Sleep(3000);
+                    case E_Browsers.apple_safari:
                         break;
 
-                    case 5: //Opera - do last
+                    case E_Browsers.opera_opera:
                         break;
 
                     default:
                         Assert.IsTrue(false, "Program tried to use a non-existant browser");
                         break;
                 }
-
-                foreach (var test in _tests)
+                if (_driver != null)
                 {
-                    test.test_main(_driver);
+                    _driver.Manage().Window.Maximize();
+                    foreach (var test in _tests)
+                    {
+                        for (int i = 0; i < _addresses.Count; i++)
+                        {
+                            Assert.IsTrue(test.test_main(_driver, _addresses[i]), "Test failed, could not navigate to address on Google Maps"); ;
+                        }
+                    }
+                    _driver.Close();
                 }
             }
-
-            
-            _driver.FindElement(By.CssSelector("[name = 'q']")).SendKeys(Keys.Enter);
-
-            //IWebElement searchButton = web_driver.FindElement(By.XPath("//div[@class='FPdoLc tfB0Bf']//input[@name='btnK']"));
-
-            // searchButton.Click();
-
         }
 
         [TearDown]  //what you want to do at the end of the test (destructors and whatnot)

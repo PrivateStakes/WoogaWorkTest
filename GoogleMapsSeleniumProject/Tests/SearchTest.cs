@@ -11,17 +11,18 @@ namespace GoogleMapsSeleniumProject
     {
         public SearchTest()
         {
-            set_url("https://www.google.com");
+            url = "https://www.google.com";
         }
 
-        public override void test_main(IWebDriver driver)
+        public override bool test_main(IWebDriver driver, string address)
         {
+            bool result = false;
             driver.Url = _url;
             //driver.Navigate().GoToUrl()
 
             System.Threading.Thread.Sleep(1000); //change to deny cookies "W0wltc"
 
-            if (IsElementPresent(driver, By.Id("W0wltc")))
+            if (is_element_present(driver, By.Id("W0wltc")))
             {
                 IWebElement declineCookies = driver.FindElement(By.Id("W0wltc"));
                 declineCookies.Click();
@@ -33,11 +34,35 @@ namespace GoogleMapsSeleniumProject
 
             //prefs.put("network.cookie.cookieBehavior", 2);    
 
-            IWebElement searchText = driver.FindElement(By.CssSelector("[name = 'q']"));
+            IWebElement search_text = driver.FindElement(By.CssSelector("[name = 'q']"));
+            search_text.SendKeys("google maps");
 
-            searchText.SendKeys("google maps");
+            driver.FindElement(By.CssSelector("[name = 'q']")).SendKeys(Keys.Enter);
 
-            System.Threading.Thread.Sleep(3000);
+            System.Threading.Thread.Sleep(1000);
+
+            //hdtb-mitem
+            if (is_element_present(driver, By.Id("rso")))
+            {
+                IWebElement enter_google_maps = driver.FindElement(By.Id("rso"));
+                enter_google_maps.Click();
+
+                System.Threading.Thread.Sleep(1000);
+
+                if (driver.Url == "https://www.google.com/maps" && is_element_present(driver, By.ClassName("tactile-searchbox-input")))
+                {
+                    search_text = driver.FindElement(By.ClassName("tactile-searchbox-input"));
+                    search_text.SendKeys(address);
+                    driver.FindElement(By.CssSelector("[name = 'q']")).SendKeys(Keys.Enter);
+
+                    result = is_element_loaded(driver, By.ClassName("m6QErb"));
+                    System.Threading.Thread.Sleep(1000);
+                }
+                else result = false;
+            }
+            else result = false;
+
+            return result;
 
             //Actions builder = new Actions(driver);
             //builder.SendKeys(Keys.Enter);

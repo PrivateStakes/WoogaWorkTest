@@ -11,12 +11,12 @@ namespace GoogleMapsSeleniumProject
     {
         public MenuTest()
         {
-            set_url("https://www.google.com");
+            url = "https://www.google.com";
         }
 
-        public override void test_main(IWebDriver driver)
+        public override bool test_main(IWebDriver driver, string address)
         {
-
+            return true;
         }
     }
 }

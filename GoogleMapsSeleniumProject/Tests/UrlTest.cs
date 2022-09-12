@@ -11,23 +11,31 @@ namespace GoogleMapsSeleniumProject
     {
         public UrlTest()
         {
-            set_url("https://www.google.com/maps");
+            url = "https://www.google.com/maps";
         }
 
-        public override void test_main(IWebDriver driver)
+        public override bool test_main(IWebDriver driver, string address)
         {
+            bool result = false;
             driver.Url = _url;
             //driver.Navigate().GoToUrl()
 
-            System.Threading.Thread.Sleep(1000); //change to deny cookies "W0wltc"
-
-            if (IsElementPresent(driver, By.ClassName("Nc7WLe")))
+            if (is_element_present(driver, By.ClassName("Nc7WLe")))
             {
-                IWebElement declineCookies = driver.FindElement(By.ClassName("Nc7WLe"));
-                declineCookies.Click();
+                IWebElement decline_cookies = driver.FindElement(By.ClassName("Nc7WLe"));
+                decline_cookies.Click();
             }
             
-            System.Threading.Thread.Sleep(3000);
+            System.Threading.Thread.Sleep(1000);
+
+            IWebElement search_text = driver.FindElement(By.ClassName("tactile-searchbox-input"));
+            search_text.SendKeys(address);
+            driver.FindElement(By.CssSelector("[name = 'q']")).SendKeys(Keys.Enter);
+
+            result = is_element_loaded(driver, By.ClassName("w6VYqd"));
+            System.Threading.Thread.Sleep(1000);
+
+            return result;
         }
     }
 }
