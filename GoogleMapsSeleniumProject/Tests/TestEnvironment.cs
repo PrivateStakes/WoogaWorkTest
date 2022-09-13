@@ -14,6 +14,7 @@ namespace GoogleMapsSeleniumProject
     {
         protected string _url;
 
+        
         public abstract bool test_main(IWebDriver driver, string address);
 
         protected string url

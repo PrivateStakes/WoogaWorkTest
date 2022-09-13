@@ -42,8 +42,15 @@ namespace GoogleMapsSeleniumProject
             last_element //note: this element should ALWAYS be the last element
         };
 
+        private struct TestContainer
+        {
+            public TestEnvironment test;
+            public bool test_failed;
+        }
+
         private IWebDriver _driver;
-        private List<TestEnvironment> _tests;
+        //private List<TestEnvironment> _tests;
+        private Dictionary<int, TestContainer> _tests;
         private List<String> _addresses;
         private List<String> _coordinates;
         private DriverManager _web_driver_manager;
@@ -51,13 +58,37 @@ namespace GoogleMapsSeleniumProject
         [SetUp]
         public void start_browser()
         {
-            _tests = new List<TestEnvironment>();
+            //_tests = new List<TestEnvironment>();
+            _tests = new Dictionary<int, TestContainer>();
             _addresses = new List<String>();
             _web_driver_manager = new DriverManager();
 
-            _tests.Add(new UrlTest());
-            _tests.Add(new SearchTest());
-            _tests.Add(new MenuTest());        
+            //Setting up the test environments
+            {
+                int key = 0;
+
+                TestContainer temp0 = new TestContainer();
+                temp0.test = new UrlTest();
+                temp0.test_failed = true;
+                _tests.Add(key, temp0);
+                key++;
+
+                TestContainer temp1 = new TestContainer();
+                temp1.test = new UrlTest();
+                temp1.test_failed = true;
+                _tests.Add(key, temp1);
+                key++;
+
+                TestContainer temp2 = new TestContainer();
+                temp2.test = new UrlTest();
+                temp2.test_failed = true;
+                _tests.Add(key, temp2);
+                key++;
+
+                //_tests.Add(new UrlTest());
+                //_tests.Add(new SearchTest());
+                //_tests.Add(new MenuTest()); 
+            }
 
             //load data
             string[] address_data = System.IO.File.ReadAllLines(@"..\..\..\addresses.txt");
@@ -71,6 +102,12 @@ namespace GoogleMapsSeleniumProject
         }
 
         //Assert.Pass();
+        [Test]
+        public void test_MenuTest()
+        {
+
+        }
+
         [Test]
         public void test_search()
         {
@@ -106,11 +143,16 @@ namespace GoogleMapsSeleniumProject
                 if (_driver != null)
                 {
                     _driver.Manage().Window.Maximize();
-                    foreach (var test in _tests)
+                    foreach (KeyValuePair<int, TestContainer> test in _tests)
                     {
                         for (int i = 0; i < _addresses.Count; i++)
                         {
-                            Assert.IsTrue(test.test_main(_driver, _addresses[i]), "Test failed, could not navigate to address on Google Maps"); ;
+                            //_tests[test].test.test_main(_driver, _addresses[i]);
+                            bool test_successful = test.Value.test.test_main(_driver, _addresses[i]);
+                            Assert.IsTrue(test_successful, "Test failed, could not navigate to address on Google Maps"); ;
+
+                            
+                            
                         }
                     }
                     _driver.Close();
