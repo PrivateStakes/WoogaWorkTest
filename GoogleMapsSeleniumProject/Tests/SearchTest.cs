@@ -62,7 +62,7 @@ namespace GoogleMapsSeleniumProject
                     driver.FindElement(By.CssSelector("[name = 'q']")).SendKeys(Keys.Enter);
 
                     result = is_element_loaded(driver, By.ClassName("w6VYqd"));
-                    System.Threading.Thread.Sleep(1000);
+                    System.Threading.Thread.Sleep(4000);
                 }
                 else error_exception = "was unable to find the search bar in google maps";
             }

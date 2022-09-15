@@ -34,9 +34,10 @@ namespace GoogleMapsSeleniumProject
 
             driver.FindElement(By.CssSelector("[name = 'q']")).SendKeys(Keys.Enter);
 
-            System.Threading.Thread.Sleep(1000);
-
             string id_or_class_name = "";
+            is_element_loaded(driver, By.CssSelector("[name = 'q']"));
+            System.Threading.Thread.Sleep(1000);
+            
             if (is_element_present(driver, By.ClassName("w7Dbne"))) id_or_class_name = "w7Dbne";
             else if (is_element_present(driver, By.ClassName("adgvqc"))) id_or_class_name = "adgvqc";
             else if (is_element_present(driver, By.ClassName("GosL7d"))) id_or_class_name = "GosL7d";
@@ -48,7 +49,7 @@ namespace GoogleMapsSeleniumProject
                 if (is_element_present(driver, By.ClassName("v7W49e"))) result = is_element_loaded(driver, By.ClassName("v7W49e"));
                 else if (is_element_present(driver, By.ClassName("w6VYqd"))) result = is_element_loaded(driver, By.ClassName("w6VYqd"));
                 else error_exception = "connection timed out(?): reached google maps but was unable to secure the address being reached";
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(4000);
             }
             else error_exception = "was unable to find access to google maps (result did not yield an address)";
 

@@ -13,6 +13,7 @@ namespace GoogleMapsSeleniumProject
     abstract class TestEnvironment
     {
         private string _url;
+        private int _timeout = 5;
         
         public abstract bool test_main(IWebDriver driver, string address, ref bool cookies_google, ref bool cookies_maps, ref string error_exception);
 
@@ -51,11 +52,9 @@ namespace GoogleMapsSeleniumProject
 
         protected bool  is_element_loaded(IWebDriver driver, By conditions)
         {
-            int timeout = 5;
-
             try
             {
-                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(_timeout));
                 var element = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(conditions));
                 return true;
             }
