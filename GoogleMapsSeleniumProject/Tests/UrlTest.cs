@@ -15,26 +15,35 @@ namespace GoogleMapsSeleniumProject
         }
 
 
-        public override bool test_main(IWebDriver driver, string address)
+        public override bool test_main(IWebDriver driver, string address, ref bool cookies_google, ref bool cookies_maps, ref string error_exception)
         {
             bool result = false;
-            driver.Url = _url;
-            //driver.Navigate().GoToUrl()
+            driver.Url = url;
+            IWebElement web_element;
 
+            if (!cookies_maps) is_element_loaded(driver, By.Id("Nc7WLe"));
             if (is_element_present(driver, By.ClassName("Nc7WLe")))
             {
-                IWebElement decline_cookies = driver.FindElement(By.ClassName("Nc7WLe"));
-                decline_cookies.Click();
+                click_on_element(driver, By.ClassName("Nc7WLe"));   //decline cookies
+                cookies_maps = true;
             }
             
             System.Threading.Thread.Sleep(1000);
 
-            IWebElement search_text = driver.FindElement(By.ClassName("tactile-searchbox-input"));
-            search_text.SendKeys(address);
-            driver.FindElement(By.CssSelector("[name = 'q']")).SendKeys(Keys.Enter);
+            string class_name = "";
+            if (is_element_present(driver, By.ClassName("searchboxinput"))) class_name = "searchboxinput";
+            if (is_element_present(driver, By.ClassName("tactile-searchbox-input"))) class_name = "tactile-searchbox-input";
 
-            result = is_element_loaded(driver, By.ClassName("w6VYqd"));
-            System.Threading.Thread.Sleep(1000);
+            if (class_name != "")
+            {
+                web_element = driver.FindElement(By.ClassName(class_name));
+                web_element.SendKeys(address);
+                driver.FindElement(By.CssSelector("[name = 'q']")).SendKeys(Keys.Enter);
+
+                result = is_element_loaded(driver, By.ClassName("w6VYqd"));
+                System.Threading.Thread.Sleep(1000);
+            }
+            else error_exception = "was unable to find the search bar in google maps";
 
             return result;
         }

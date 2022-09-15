@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 
 namespace GoogleMapsSeleniumProject
 {
@@ -15,59 +16,59 @@ namespace GoogleMapsSeleniumProject
         }
 
 
-        public override bool test_main(IWebDriver driver, string address)
+        public override bool test_main(IWebDriver driver, string address, ref bool cookies_google, ref bool cookies_maps, ref string error_exception)
         {
             bool result = false;
-            driver.Url = _url;
-            //driver.Navigate().GoToUrl()
+            driver.Url = url;
+            IWebElement web_element;
 
-            System.Threading.Thread.Sleep(1000); //change to deny cookies "W0wltc"
-
+            if (!cookies_google) is_element_loaded(driver, By.Id("W0wltc"));
             if (is_element_present(driver, By.Id("W0wltc")))
             {
-                IWebElement declineCookies = driver.FindElement(By.Id("W0wltc"));
-                declineCookies.Click();
+                click_on_element(driver, By.Id("W0wltc"));   //decline cookies
+                cookies_google = true;
             }
-            
 
             System.Threading.Thread.Sleep(1000);
 
-
-            //prefs.put("network.cookie.cookieBehavior", 2);    
-
-            IWebElement search_text = driver.FindElement(By.CssSelector("[name = 'q']"));
-            search_text.SendKeys("google maps");
+            web_element = driver.FindElement(By.CssSelector("[name = 'q']"));
+            web_element.SendKeys("google maps");
 
             driver.FindElement(By.CssSelector("[name = 'q']")).SendKeys(Keys.Enter);
 
             System.Threading.Thread.Sleep(1000);
 
-            //hdtb-mitem
-            if (is_element_present(driver, By.Id("rso")))
+            if (is_element_present(driver, By.ClassName("LC20lb"))) //selects the 'google maps' search result
             {
-                IWebElement enter_google_maps = driver.FindElement(By.Id("rso"));
-                enter_google_maps.Click();
+                click_on_element(driver, By.ClassName("LC20lb"));
+
+                if (!cookies_maps) is_element_loaded(driver, By.ClassName("Nc7WLe"));
+                if (is_element_present(driver, By.ClassName("Nc7WLe")))
+                {
+                    click_on_element(driver, By.ClassName("Nc7WLe"));   //decline cookies
+                    cookies_maps = true;
+                }
 
                 System.Threading.Thread.Sleep(1000);
 
-                if (driver.Url == "https://www.google.com/maps" && is_element_present(driver, By.ClassName("tactile-searchbox-input")))
+                string class_name = "";
+                if (is_element_present(driver, By.ClassName("searchboxinput"))) class_name = "searchboxinput";
+                if (is_element_present(driver, By.ClassName("tactile-searchbox-input"))) class_name = "tactile-searchbox-input";
+
+                if (class_name != "")
                 {
-                    search_text = driver.FindElement(By.ClassName("tactile-searchbox-input"));
-                    search_text.SendKeys(address);
+                    web_element = driver.FindElement(By.ClassName(class_name));
+                    web_element.SendKeys(address);
                     driver.FindElement(By.CssSelector("[name = 'q']")).SendKeys(Keys.Enter);
 
-                    result = is_element_loaded(driver, By.ClassName("m6QErb"));
+                    result = is_element_loaded(driver, By.ClassName("w6VYqd"));
                     System.Threading.Thread.Sleep(1000);
                 }
-                else result = false;
+                else error_exception = "was unable to find the search bar in google maps";
             }
-            else result = false;
+            else error_exception = "was unable to find 'google maps' in the search results";
 
             return result;
-
-            //Actions builder = new Actions(driver);
-            //builder.SendKeys(Keys.Enter);
-
         }
     }
 }

@@ -10,15 +10,11 @@
         "projectUniqueName": "E:\\Projects\\Wooga\\GoogleMapsSeleniumProject\\GoogleMapsSeleniumProject\\GoogleMapsSeleniumProject.csproj",
         "projectName": "GoogleMapsSeleniumProject",
         "projectPath": "E:\\Projects\\Wooga\\GoogleMapsSeleniumProject\\GoogleMapsSeleniumProject\\GoogleMapsSeleniumProject.csproj",
-        "packagesPath": "C:\\Users\\edgre\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\Giulia\\.nuget\\packages\\",
         "outputPath": "E:\\Projects\\Wooga\\GoogleMapsSeleniumProject\\GoogleMapsSeleniumProject\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\edgre\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Giulia\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -60,6 +56,10 @@
               "target": "Package",
               "version": "[4.2.1, )"
             },
+            "Selenium.Support": {
+              "target": "Package",
+              "version": "[4.4.0, )"
+            },
             "Selenium.WebDriver": {
               "target": "Package",
               "version": "[4.4.0, )"
@@ -94,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

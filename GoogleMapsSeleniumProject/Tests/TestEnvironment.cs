@@ -12,10 +12,9 @@ namespace GoogleMapsSeleniumProject
 {
     abstract class TestEnvironment
     {
-        protected string _url;
-
+        private string _url;
         
-        public abstract bool test_main(IWebDriver driver, string address);
+        public abstract bool test_main(IWebDriver driver, string address, ref bool cookies_google, ref bool cookies_maps, ref string error_exception);
 
         protected string url
         {
@@ -27,6 +26,13 @@ namespace GoogleMapsSeleniumProject
             {
                 _url = value;
             }
+        }
+        
+
+        protected void click_on_element(IWebDriver driver, By conditions) //not the most effective way of doing it, but it gets the job done
+        {
+            IWebElement decline_cookies = driver.FindElement(conditions);
+            decline_cookies.Click();
         }
 
         protected bool is_element_present(IWebDriver driver, By conditions)
@@ -45,7 +51,7 @@ namespace GoogleMapsSeleniumProject
 
         protected bool  is_element_loaded(IWebDriver driver, By conditions)
         {
-            int timeout = 10;
+            int timeout = 5;
 
             try
             {
@@ -54,6 +60,10 @@ namespace GoogleMapsSeleniumProject
                 return true;
             }
             catch (NoSuchElementException)
+            {
+                return false;
+            }
+            catch (OpenQA.Selenium.WebDriverTimeoutException)
             {
                 return false;
             }
